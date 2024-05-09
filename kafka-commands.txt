@@ -1,0 +1,33 @@
+
+zookeeper-server-start.bat ..\..\config\zookeeper.properties
+
+kafka-server-start.bat ..\..\config\server.properties
+
+kafka-topics.bat --create --topic ad_impressions --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+
+kafka-topics.bat --create --topic clicks --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+
+kafka-topics.bat --create --topic conversations --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic ad_impressions --property "key.separator=-" --property "parse.key=true"
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic clicks --property "key.separator=-" --property "parse.key=true"
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic conversations --property "key.separator=-" --property "parse.key=true"
+
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic ad_impressions --from-beginning -property "key.separator=-" --property "print.key=false"
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic clicks --from-beginning -property "key.separator=-" --property "print.key=false"
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic conversations --from-beginning -property "key.separator=-" --property "print.key=false"
+
+kafka-topics.bat --bootstrap-server localhost:9092 --list
+
+kafka-consumer-groups.bat --bootstrap-server localhost:9092 --list
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic ad_impressions --group console-consumer-9930<consumer_group_name>
+
+kafka-topics.bat --describe --topic clicks --bootstrap-server localhost:9092
+
+bin/connect-standalone.sh config/connect-standalone.properties <connector-config-file>
